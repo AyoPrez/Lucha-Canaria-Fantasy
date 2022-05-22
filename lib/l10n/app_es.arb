@@ -1,0 +1,18 @@
+{
+  "appName": "Lucha Canaria fantasy",
+  "ok": "Vale",
+  "login": "Iniciar sesión",
+  "register": "Registrarse",
+  "createAccount": "Crear cuenta",
+  "forgotPassword": "¿Has olvidado tu contraseña?",
+  "recoverPassword": "Recuperar contraseña",
+  "username": "Nombre de usuario",
+  "password": "Contraseña",
+  "email": "Correo electrónico",
+  "emptyFieldsTitle": "Campos vacios",
+  "emptyFieldsDescription": "Los campos no pueden estar vacíos",
+  "emptyEmailFieldTitle": "Campo de correo vacío",
+  "emptyEmailFieldDescription": "Debes introducir tu correo electónico para continuar",
+  "recoverEmailSuccessTitle": "Recuperar contraseña",
+  "recoverEmailSuccessDescription": "Pronto recibirás un correo electrónico con un enlace para cambiar tu contraseña"
+}
