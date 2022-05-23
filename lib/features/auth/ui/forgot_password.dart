@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:lucha_fantasy/injection.dart';
-import 'package:lucha_fantasy/presenter/auth_presenter.dart';
-import 'package:lucha_fantasy/responsive/dimens.dart';
-import 'package:lucha_fantasy/ui/widgets/app_bar.dart';
+import 'package:lucha_fantasy/core/injection.dart';
+import 'package:lucha_fantasy/core/responsive/dimens.dart';
+import 'package:lucha_fantasy/core/theme_manager.dart';
+import 'package:lucha_fantasy/features/auth/presenter/auth_presenter.dart';
+import 'package:lucha_fantasy/features/auth/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
-
-import '../theme_manager.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);

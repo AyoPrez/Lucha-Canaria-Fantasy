@@ -1,6 +1,5 @@
 import 'package:injectable/injectable.dart';
-
-import '../data/repository/auth.dart';
+import 'package:lucha_fantasy/data/repository/auth.dart';
 
 abstract class AuthPresenter {
   Future<bool> signupUser(email, username, password);

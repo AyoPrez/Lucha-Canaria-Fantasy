@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lucha_fantasy/injection.dart';
-import 'package:lucha_fantasy/router/routes.dart';
+import 'package:lucha_fantasy/core/router/routes.dart';
+import 'package:lucha_fantasy/core/theme_manager.dart';
 import 'package:provider/provider.dart';
 
-import 'theme_manager.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await configureDependencies();
-  return runApp(
-    ChangeNotifierProvider<ThemeNotifier>(
-      create: (_) => ThemeNotifier(),
-      child: const MyApp(),
-    ),
-  );
-}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

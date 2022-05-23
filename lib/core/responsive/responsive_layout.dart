@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucha_fantasy/responsive/dimens.dart';
+import 'package:lucha_fantasy/core/responsive/dimens.dart';
 
 class ResponsiveLayout extends StatelessWidget {
 

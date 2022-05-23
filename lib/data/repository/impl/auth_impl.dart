@@ -5,6 +5,10 @@ import 'package:lucha_fantasy/data/repository/auth.dart';
 @Injectable(as: Auth)
 class AuthImpl implements Auth {
 
+  // final ParseService _parseService;
+  //
+  // AuthImpl(this._parseService);
+
   @override
   Future<User?> getUser() async {
     return User(id: "1", email: "a@a.com", username: "Aa");

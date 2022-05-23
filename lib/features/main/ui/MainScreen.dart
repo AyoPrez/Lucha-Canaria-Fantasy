@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lucha_fantasy/responsive/responsive_layout.dart';
-import 'package:lucha_fantasy/ui/main/responsive/desktop_body.dart';
-import 'package:lucha_fantasy/ui/main/responsive/mobile_body.dart';
-import 'package:lucha_fantasy/ui/main/responsive/tablet_body.dart';
+import 'package:lucha_fantasy/core/responsive/responsive_layout.dart';
+import 'package:lucha_fantasy/features/main/ui/responsive/desktop_body.dart';
+import 'package:lucha_fantasy/features/main/ui/responsive/mobile_body.dart';
+import 'package:lucha_fantasy/features/main/ui/responsive/tablet_body.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucha_fantasy/theme_manager.dart';
+import 'package:lucha_fantasy/core/theme_manager.dart';
 
 class SimpleAppBar extends StatelessWidget with PreferredSizeWidget {
 
