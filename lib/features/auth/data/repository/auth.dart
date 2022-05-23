@@ -1,4 +1,4 @@
-import 'package:lucha_fantasy/data/model/user.dart';
+import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 
 abstract class Auth {
   Future<bool> signIn({required String username, required String password});

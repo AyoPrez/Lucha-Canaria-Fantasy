@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:lucha_fantasy/data/model/user.dart';
-import 'package:lucha_fantasy/data/repository/auth.dart';
+import 'package:lucha_fantasy/features/auth/data/model/user.dart';
+import 'package:lucha_fantasy/features/auth/data/repository/auth.dart';
 
 @Injectable(as: Auth)
 class AuthImpl implements Auth {
