@@ -1,13 +1,13 @@
-import 'package:injectable/injectable.dart';
+import 'package:lucha_fantasy/core/services/parse_service.dart';
 import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/auth/data/repository/auth.dart';
 
-@Injectable(as: Auth)
+
 class AuthImpl implements Auth {
 
-  // final ParseService _parseService;
-  //
-  // AuthImpl(this._parseService);
+  final ParseService _parseService;
+
+  AuthImpl(this._parseService);
 
   @override
   Future<User?> getUser() async {

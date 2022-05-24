@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lucha_fantasy/core/injection.dart';
+import 'package:lucha_fantasy/core/injection.dart' as di;
 import 'package:lucha_fantasy/core/theme_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +9,7 @@ import 'my_app.dart';
 Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await configureDependencies();
+  await di.init();
 
   await ConfigReader.initialize();
 

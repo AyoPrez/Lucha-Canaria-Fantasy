@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:lucha_fantasy/features/auth/data/repository/auth.dart';
 
 abstract class AuthPresenter {
@@ -7,7 +6,6 @@ abstract class AuthPresenter {
   Future<void> forgotPassword(email);
 }
 
-@Injectable(as: AuthPresenter)
 class AuthPresenterImpl extends AuthPresenter {
 
   final Auth auth;
@@ -28,5 +26,4 @@ class AuthPresenterImpl extends AuthPresenter {
   Future<void> forgotPassword(email) {
     return auth.forgotPassword(email: email);
   }
-
 }
