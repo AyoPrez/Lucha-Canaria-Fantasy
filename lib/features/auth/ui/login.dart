@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
 import 'package:lucha_fantasy/core/responsive/dimens.dart';
+import 'package:lucha_fantasy/core/services/exceptions/empty_fields_exception.dart';
+import 'package:lucha_fantasy/core/services/exceptions/fail_login_exception.dart';
 import 'package:lucha_fantasy/core/theme_manager.dart';
 import 'package:lucha_fantasy/features/auth/presenter/auth_presenter.dart';
+import 'package:lucha_fantasy/features/auth/ui/login_view.dart';
 import 'package:lucha_fantasy/features/auth/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -15,18 +18,24 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> implements LoginView {
   final AuthPresenter presenter = locator.get<AuthPresenter>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  late BuildContext context;
+
+  @override
+  Widget build(BuildContext buildContext) {
+    context = buildContext;
+    presenter.setLoginView(this);
+
     return Consumer<ThemeNotifier>(
       builder: (context, theme, _) => Scaffold(
         appBar: SimpleAppBar(theme: theme),
         body: Padding(
-          padding: const EdgeInsets.all(80.0),
+          padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
           child: Center(
             child: SizedBox(
               width: formFieldsWidth,
@@ -86,15 +95,9 @@ class _LoginState extends State<Login> {
                       child: MouseRegion(
                         child: OutlinedButton(
                             onPressed: () async {
-                              var userSignedIn = await presenter.loginUser(
-                                  usernameController.value.text,
-                                  passwordController.value.text);
-
-                              if (userSignedIn) {
-                                Navigator.pushNamed(context, "/principal");
-                              } else {
-                                showAlertDialog(context);
-                              }
+                              await presenter.loginUser(
+                                  usernameController.value.text.trim(),
+                                  passwordController.value.text.trim());
                             },
                             child: Text(AppLocalizations.of(context).login)),
                       ),
@@ -109,10 +112,30 @@ class _LoginState extends State<Login> {
     );
   }
 
-  showAlertDialog(BuildContext context) {
+  @override
+  void displayDialog(Exception? exception) {
+    String title = "";
+    String text = "";
+
+    if(exception == null) {
+      title = AppLocalizations.of(context).verificationEmailDialogTitle;
+      text = AppLocalizations.of(context).recoverEmailSuccessDescription;
+    } else {
+      if(exception is FailLoginException) {
+        title = AppLocalizations.of(context).errorFailLoginTitle;
+        text = AppLocalizations.of(context).errorFailLoginDescription;
+      } else if(exception is EmptyFieldsException) {
+        title = AppLocalizations.of(context).emptyFieldsTitle;
+        text = AppLocalizations.of(context).emptyFieldsDescription;
+      } else {
+        title = AppLocalizations.of(context).errorUnknownTitle;
+        text = AppLocalizations.of(context).errorUnknownDescription;
+      }
+    }
+
     // set up the button
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: Text(AppLocalizations.of(context).ok),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -120,8 +143,8 @@ class _LoginState extends State<Login> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("My title"),
-      content: Text("This is my message."),
+      title: Text(title),
+      content: Text(text),
       actions: [
         okButton,
       ],
@@ -134,5 +157,10 @@ class _LoginState extends State<Login> {
         return alert;
       },
     );
+}
+
+  @override
+  void navigateToMainScreen() {
+    Navigator.pushNamed(context, "/principal");
   }
 }

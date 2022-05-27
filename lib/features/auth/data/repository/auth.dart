@@ -5,5 +5,5 @@ abstract class Auth {
   Future<bool> register({required String username, required String email, required String password});
   Future<User?> getUser();
   Future<void> forgotPassword({required String email});
-  Future<void> logOut();
+  Future<bool> logOut();
 }
