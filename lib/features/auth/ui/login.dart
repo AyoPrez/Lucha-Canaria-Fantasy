@@ -31,6 +31,10 @@ class _LoginState extends State<Login> implements LoginView {
     context = buildContext;
     presenter.setLoginView(this);
 
+    //TODO Remove this
+    usernameController.text = "a@a.com";
+    passwordController.text = "asdf1234";
+
     return Consumer<ThemeNotifier>(
       builder: (context, theme, _) => Scaffold(
         appBar: SimpleAppBar(theme: theme),

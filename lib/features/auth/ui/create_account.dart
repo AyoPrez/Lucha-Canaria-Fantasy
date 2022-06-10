@@ -108,8 +108,6 @@ class _CreateAccountState extends State<CreateAccount> implements CreateAccountV
     String title = "";
     String text = "";
 
-    print("-----SingUpUserDialog -> $context");
-
     if (exception == null) {
       title = AppLocalizations.of(context).verificationEmailDialogTitle;
       text = AppLocalizations.of(context).recoverEmailSuccessDescription;
