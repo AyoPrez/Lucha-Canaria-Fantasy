@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:lucha_fantasy/core/config_reader.dart';
 import 'package:lucha_fantasy/core/services/exceptions/empty_fields_exception.dart';
+import 'package:lucha_fantasy/features/credits/data/model/credits_model.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/my_team.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/player.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/team.dart';
@@ -96,5 +97,21 @@ class ParseService {
               points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
         ]);
   }
+  //endregion
+
+  //region Credits
+  Future<List<CreditsModel>> getAllCreditAds() async {
+    final QueryBuilder<ParseObject> queryCredits = QueryBuilder<ParseObject>(ParseObject('Credits'));
+    final ParseResponse apiResponse = await queryCredits.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      final List<ParseObject> result = apiResponse.results as List<ParseObject>;
+
+      return CreditsModel.fromParseResult(result);
+    } else {
+      return [];
+    }
+  }
+
   //endregion
 }

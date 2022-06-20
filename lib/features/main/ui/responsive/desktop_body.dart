@@ -1,6 +1,7 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucha_fantasy/features/credits/ui/responsive/desktop_body.dart';
 import 'package:lucha_fantasy/features/my_team/ui/responsive/desktop_body.dart';
 
 class MainDesktopBody extends StatelessWidget {
@@ -75,25 +76,32 @@ class MainDesktopBody extends StatelessWidget {
       width: mediaQuerySize.width / 6,
       child: SideMenu(
         controller: page,
-        footer: Container(
-          height: 40,
-          color: Colors.white,
-            child: Center(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "${AppLocalizations.of(context).menuItemBalance}: $userMoneyBalance",
-                          style: TextStyle(fontSize: 22)
-                      ),
-                      WidgetSpan(
-                        child: Icon(Icons.monetization_on_outlined, size: 22, color: Colors.purple,),
-                      ),
+        footer: MouseRegion(
+          child: TextButton(
+            onPressed: () {
+              page.jumpToPage(6);
+            },
+            child: Container(
+              height: 40,
+              color: Colors.white,
+                child: Center(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "${AppLocalizations.of(context).menuItemBalance}: $userMoneyBalance",
+                              style: const TextStyle(fontSize: 18)
+                          ),
+                          const WidgetSpan(
+                            child: Icon(Icons.monetization_on_outlined, size: 18, color: Colors.purple,),
+                          ),
 
-                    ],
-                  ),
+                        ],
+                      ),
+                    ),
                 ),
             ),
+          ),
         ),
         title: Column(
           children: [
@@ -156,6 +164,10 @@ class MainDesktopBody extends StatelessWidget {
             child: Center(
               child: Text('Settings'),
             ),
+          ),
+          Container(),
+          Container(
+            child: CreditsDesktopBody(),
           ),
         ],
       ),

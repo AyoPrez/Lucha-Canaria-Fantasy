@@ -44,5 +44,13 @@
   "name": "Name",
   "alias": "Alias",
   "team": "Team",
-  "price": "Price"
+  "price": "Price",
+  "myBalance": "Your balance",
+  "credits": "Credits",
+  "baseOffer": "Base",
+  "silverOffer": "Silver",
+  "goldOffer": "Gold",
+  "platinumOffer": "Platinum",
+  "diamondOffer": "Diamond",
+  "recommendedOffer": "Recommended"
 }

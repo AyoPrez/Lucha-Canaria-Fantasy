@@ -44,5 +44,13 @@
   "name": "Nombre",
   "alias": "Apodo",
   "team": "Equipo",
-  "price": "Precio"
+  "price": "Precio",
+  "credits": "Créditos",
+  "myBalance": "Tu balance",
+  "baseOffer": "Base",
+  "silverOffer": "Plata",
+  "goldOffer": "Oro",
+  "platinumOffer": "Platino",
+  "diamondOffer": "Diamante",
+  "recommendedOffer": "Recomendado"
   }
