@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
@@ -7,7 +8,9 @@ import 'package:lucha_fantasy/features/credits/presenter/credits_presenter.dart'
 import 'package:lucha_fantasy/features/credits/ui/credits_view.dart';
 
 class CreditsDesktopBody extends StatefulWidget {
-  const CreditsDesktopBody({Key? key}) : super(key: key);
+  final int userBalance;
+
+  const CreditsDesktopBody({Key? key, required this.userBalance}) : super(key: key);
 
   @override
   State<CreditsDesktopBody> createState() => _CreditsDesktopBodyState();
@@ -16,9 +19,6 @@ class CreditsDesktopBody extends StatefulWidget {
 class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements CreditsView {
   final CreditsPresenter presenter = locator.get<CreditsPresenter>();
   late Size mediaQuerySize;
-
-  //Test. Remove soon
-  final String userMoneyBalance = "3500";
 
   bool isLoadingDisplayed = false;
 
@@ -35,12 +35,7 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).credits),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<List<CreditsModel>>(
         future: presenter.getAllCreditAds(),
@@ -55,7 +50,7 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text: "${AppLocalizations.of(context).myBalance}: $userMoneyBalance",
+                              text: "${AppLocalizations.of(context).myBalance}: ${widget.userBalance.toString()}",
                               style: const TextStyle(fontSize: 22)
                           ),
                           const WidgetSpan(
@@ -265,7 +260,7 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
     final Widget okButton = TextButton(
       child: Text(AppLocalizations.of(context).ok),
       onPressed: () {
-        Navigator.of(context).pop();
+        AutoRouter.of(context).pop();
       },
     );
 

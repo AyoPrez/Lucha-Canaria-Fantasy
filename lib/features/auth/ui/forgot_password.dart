@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
@@ -85,7 +86,7 @@ class _ForgotPasswordState extends State<ForgotPassword> implements ForgotPasswo
     if(exception == null) {
       title = AppLocalizations.of(context).recoverEmailSuccessTitle;
       text = AppLocalizations.of(context).recoverEmailSuccessDescription;
-      buttonOnClick = () { Navigator.pushNamed(context, "iniciar"); };
+      buttonOnClick = () { AutoRouter.of(context).replaceNamed("iniciar"); };
     } else {
       if(exception is EmptyFieldsException) {
         title = AppLocalizations
@@ -95,18 +96,18 @@ class _ForgotPasswordState extends State<ForgotPassword> implements ForgotPasswo
             .of(context)
             .emptyFieldsDescription;
         buttonOnClick = () {
-          Navigator.of(context).pop();
+          AutoRouter.of(context).pop();
         };
       } else if (exception is WrongEmailFormatException) {
         title = AppLocalizations.of(context).errorWrongEmailFormatTitle;
         text = AppLocalizations.of(context).errorWrongEmailFormatDescription;
         buttonOnClick = () {
-          Navigator.of(context).pop();
+          AutoRouter.of(context).pop();
         };
       } else {
         title = AppLocalizations.of(context).errorUnknownTitle;
         text = AppLocalizations.of(context).errorUnknownDescription;
-        buttonOnClick = () { Navigator.of(context).pop(); };
+        buttonOnClick = () { AutoRouter.of(context).pop(); };
       }
     }
 

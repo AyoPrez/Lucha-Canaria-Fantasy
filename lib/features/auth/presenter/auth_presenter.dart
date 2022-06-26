@@ -11,6 +11,7 @@ abstract class AuthPresenter {
   Future<void> signupUser(email, username, password);
   Future<void> loginUser(username, password);
   Future<void> forgotPassword(email);
+  Future<bool> isSessionActive();
   void setCreateAccountView(CreateAccountView view);
   void setLoginView(LoginView view);
   void setForgotPasswordView(ForgotPasswordView view);
@@ -69,7 +70,6 @@ class AuthPresenterImpl extends AuthPresenter {
 
   @override
   Future<void> forgotPassword(email) async {
-
     if (email.isEmpty) {
       _forgotPasswordView?.displayDialog(EmptyFieldsException());
     } else if(!email.contains('@')) {
@@ -78,6 +78,17 @@ class AuthPresenterImpl extends AuthPresenter {
       await auth.forgotPassword(email: email);
       _forgotPasswordView?.displayDialog(null);
     }
+  }
+
+  @override
+  Future<bool> isSessionActive() async {
+    bool sessionActive = await auth.isSessionActive();
+
+    if(!sessionActive) {
+      _loginView?.navigateToMainScreen();
+    }
+
+    return sessionActive;
   }
 
   @override

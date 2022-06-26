@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
@@ -295,7 +296,7 @@ class _MyTeamDesktopBodyState extends State<MyTeamDesktopBody> implements MyTeam
     final Widget okButton = TextButton(
       child: Text(AppLocalizations.of(context).ok),
       onPressed: () {
-        Navigator.of(context).pop();
+        AutoRouter.of(context).pop();
       },
     );
 

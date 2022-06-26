@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
@@ -39,78 +40,78 @@ class _LoginState extends State<Login> implements LoginView {
       builder: (context, theme, _) => Scaffold(
         appBar: SimpleAppBar(theme: theme),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-          child: Center(
-            child: SizedBox(
-              width: formFieldsWidth,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: MouseRegion(
-                      child: TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                            icon: const Icon(Icons.account_box_outlined),
-                            hintText: AppLocalizations.of(context).username),
-                      ),
+                padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
+                child: Center(
+                  child: SizedBox(
+                    width: formFieldsWidth,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: MouseRegion(
+                            child: TextField(
+                              controller: usernameController,
+                              decoration: InputDecoration(
+                                  icon: const Icon(Icons.account_box_outlined),
+                                  hintText: AppLocalizations.of(context).username),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: MouseRegion(
+                            child: TextField(
+                              controller: passwordController,
+                              obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              decoration: InputDecoration(
+                                  icon: const Icon(Icons.key),
+                                  hintText: AppLocalizations.of(context).password),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: MouseRegion(
+                            child: TextButton(
+                              onPressed: () {
+                                AutoRouter.of(context).pushNamed("recuperar_contraseña");
+                              },
+                              child: Text(AppLocalizations.of(context).forgotPassword),
+                            ),
+                          ),
+                        ),
+                        Wrap(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: MouseRegion(
+                              child: OutlinedButton(
+                                  onPressed: () {
+                                    usernameController.clear();
+                                    passwordController.clear();
+                                    AutoRouter.of(context).pushNamed("/registro");
+                                  },
+                                  child: Text(AppLocalizations.of(context).register)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: MouseRegion(
+                              child: OutlinedButton(
+                                  onPressed: () async {
+                                    await presenter.loginUser(
+                                        usernameController.value.text.trim(),
+                                        passwordController.value.text.trim());
+                                  },
+                                  child: Text(AppLocalizations.of(context).login)),
+                            ),
+                          ),
+                        ])
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: MouseRegion(
-                      child: TextField(
-                        controller: passwordController,
-                        obscureText: true,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                            icon: const Icon(Icons.key),
-                            hintText: AppLocalizations.of(context).password),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: MouseRegion(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, "recuperar_contraseña");
-                        },
-                        child: Text(AppLocalizations.of(context).forgotPassword),
-                      ),
-                    ),
-                  ),
-                  Wrap(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: MouseRegion(
-                        child: OutlinedButton(
-                            onPressed: () {
-                              usernameController.clear();
-                              passwordController.clear();
-                              Navigator.pushNamed(context, "/registro");
-                            },
-                            child: Text(AppLocalizations.of(context).register)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: MouseRegion(
-                        child: OutlinedButton(
-                            onPressed: () async {
-                              await presenter.loginUser(
-                                  usernameController.value.text.trim(),
-                                  passwordController.value.text.trim());
-                            },
-                            child: Text(AppLocalizations.of(context).login)),
-                      ),
-                    ),
-                  ])
-                ],
-              ),
-            ),
-          ),
+                ),
         ),
       ),
     );
@@ -141,7 +142,7 @@ class _LoginState extends State<Login> implements LoginView {
     Widget okButton = TextButton(
       child: Text(AppLocalizations.of(context).ok),
       onPressed: () {
-        Navigator.of(context).pop();
+        AutoRouter.of(context).pop();
       },
     );
 
@@ -165,6 +166,6 @@ class _LoginState extends State<Login> implements LoginView {
 
   @override
   void navigateToMainScreen() {
-    Navigator.pushNamed(context, "/principal");
+    AutoRouter.of(context).replaceNamed("/principal");
   }
 }

@@ -1,28 +1,21 @@
-import 'package:fluro/fluro.dart';
+import 'package:auto_route/annotations.dart';
+import 'package:lucha_fantasy/core/router/auth_guard.dart';
+import 'package:lucha_fantasy/core/router/no_auth_guard.dart';
 import 'package:lucha_fantasy/features/auth/ui/create_account.dart';
 import 'package:lucha_fantasy/features/auth/ui/forgot_password.dart';
 import 'package:lucha_fantasy/features/auth/ui/login.dart';
 import 'package:lucha_fantasy/features/main/ui/MainScreen.dart';
 import 'package:lucha_fantasy/features/splash_screen/ui/SplashScreen.dart';
 
-class Routes {
-  static final FluroRouter router = FluroRouter();
 
-  static final Handler _splashScreen = Handler(handlerFunc: (context, parameters) => const SplashScreen());
-
-  static final Handler _loginScreen = Handler(handlerFunc: (context, parameters) => const Login());
-
-  static final Handler _forgotPasswordScreen = Handler(handlerFunc: (context, parameters) => const ForgotPassword());
-
-  static final Handler _registerScreen = Handler(handlerFunc: (context, parameters) => const CreateAccount());
-
-  static final Handler _mainScreen = Handler(handlerFunc: (context, parameters) => const MainScreen());
-
-  static void setupRouter() {
-    router.define('/', handler: _splashScreen);
-    router.define('/iniciar', handler: _loginScreen, transitionType: TransitionType.fadeIn);
-    router.define('/registro', handler: _registerScreen, transitionType: TransitionType.native);
-    router.define('/recuperar_contraseña', handler: _forgotPasswordScreen, transitionType: TransitionType.native);
-    router.define('/principal', handler: _mainScreen);
-  }
-}
+@MaterialAutoRouter(
+  replaceInRouteName: 'Page,Route',
+  routes: <AutoRoute>[
+    AutoRoute(path: '/', page: SplashScreen, initial: true),
+    AutoRoute(path: '/iniciar', page: Login, guards: [NoAuthGuard]),
+    AutoRoute(path: '/recuperar_contraseña', page: ForgotPassword, guards: [NoAuthGuard]),
+    AutoRoute(path: '/registro', page: CreateAccount, guards: [NoAuthGuard]),
+    AutoRoute(path: '/principal', page: MainScreen, children: [], guards: [AuthGuard]),
+  ],
+)
+class $AppRouter {}

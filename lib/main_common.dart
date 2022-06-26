@@ -10,7 +10,6 @@ Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
-
   await ConfigReader.initialize();
 
   return runApp(

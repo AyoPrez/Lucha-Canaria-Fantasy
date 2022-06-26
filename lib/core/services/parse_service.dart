@@ -17,6 +17,7 @@ class ParseService {
   Future<void> init() async {
     ConfigReader.initialize();
 
+    print("-----------Initialize: -----------");
     if(kReleaseMode) {
       await Parse().initialize(ConfigReader.getParseAppProdKey(), keyParseServerUrl, clientKey: ConfigReader.getParseClientProdKey(), debug: true);
     } else {
@@ -29,6 +30,9 @@ class ParseService {
   //region Auth
   Future<ParseUser?> getParseUser() async {
     final ParseUser? currentUser = await ParseUser.currentUser() as ParseUser?;
+
+    print("--------------ParseUser---");
+
     if (currentUser == null) {
       return null;
     }
@@ -79,6 +83,22 @@ class ParseService {
   Future<void> forgotPassword({required String email}) async {
     final ParseUser user = ParseUser(null, null, email.trim());
     await user.requestPasswordReset();
+  }
+
+  Future<bool> isSessionActive() async {
+
+    try {
+      print("---------------Session Active----------");
+      final ParseUser? user = await getParseUser();
+      print("---------------Parse user -------- ${user}");
+    } catch(Exception) {
+      print("--------Exception: ${Exception}");
+      return false;
+    }
+
+    final user = await ParseUser.currentUser() as ParseUser;
+    print("---------------User: ${user.username}");
+    return user.sessionToken != null;
   }
   //endregion
 

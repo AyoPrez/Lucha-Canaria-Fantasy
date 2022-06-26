@@ -1,14 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:lucha_fantasy/core/injection.dart';
+import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/credits/ui/responsive/desktop_body.dart';
+import 'package:lucha_fantasy/features/main/presenter/main_presenter.dart';
 import 'package:lucha_fantasy/features/my_team/ui/responsive/desktop_body.dart';
 
 class MainDesktopBody extends StatelessWidget {
+  MainDesktopBody({Key? key}) : super(key: key);
 
-  final int userMoneyBalance;
-
-  MainDesktopBody({Key? key, required this.userMoneyBalance}) : super(key: key);
+  final MainPresenter presenter = locator.get<MainPresenter>();
 
   final PageController page = PageController();
   late Size mediaQuerySize;
@@ -18,17 +21,37 @@ class MainDesktopBody extends StatelessWidget {
     mediaQuerySize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.green,
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          sideMenu(context),
-          mainContent()
-        ],
+      body: FutureBuilder<User?>(
+        future: presenter.getUserData(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if(snapshot.hasData) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                sideMenu(context, snapshot.data!.balance.toString()),
+                mainContent(snapshot.data!.balance)
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text(
+              AppLocalizations.of(context).errorUnknownDescription, //Add here better description error
+              style: const TextStyle(fontSize: 20, color: Colors.red),
+            );
+          } else {
+            return const Center(
+              child: SizedBox(
+                width: 120,
+                height: 120,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget sideMenu(BuildContext context){
+  Widget sideMenu(BuildContext context, String userBalance){
     List<SideMenuItem> items = [
       SideMenuItem(
         // Priority of item to show on SideMenu, lower value is displayed at the top
@@ -67,7 +90,10 @@ class MainDesktopBody extends StatelessWidget {
       SideMenuItem(
         priority: 5,
         title: AppLocalizations.of(context).logout,
-        onTap: () {},
+        onTap: () async {
+          await presenter.logout();
+          AutoRouter.of(context).replaceNamed("/");
+        },
         icon: Icon(Icons.exit_to_app),
       ),
     ];
@@ -89,7 +115,7 @@ class MainDesktopBody extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "${AppLocalizations.of(context).menuItemBalance}: $userMoneyBalance",
+                            text: "${AppLocalizations.of(context).menuItemBalance}: $userBalance",
                               style: const TextStyle(fontSize: 18)
                           ),
                           const WidgetSpan(
@@ -118,6 +144,9 @@ class MainDesktopBody extends StatelessWidget {
             ),
           ],
         ),
+        onDisplayModeChanged: (mode) {
+         print(mode);
+        },
         items: items,
         style: SideMenuStyle(
             displayMode: SideMenuDisplayMode.auto,
@@ -137,7 +166,7 @@ class MainDesktopBody extends StatelessWidget {
     );
   }
 
-  Widget mainContent() {
+  Widget mainContent(int userBalance) {
     return Expanded(
       child: PageView(
         controller: page,
@@ -167,7 +196,7 @@ class MainDesktopBody extends StatelessWidget {
           ),
           Container(),
           Container(
-            child: CreditsDesktopBody(),
+            child: CreditsDesktopBody(userBalance: userBalance,),
           ),
         ],
       ),

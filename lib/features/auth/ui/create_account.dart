@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/responsive/dimens.dart';
@@ -128,7 +129,7 @@ class _CreateAccountState extends State<CreateAccount> implements CreateAccountV
     final Widget okButton = TextButton(
       child: Text(AppLocalizations.of(context).ok),
       onPressed: () {
-        Navigator.of(context).pop();
+        AutoRouter.of(context).pop();
       },
     );
 
@@ -152,6 +153,6 @@ class _CreateAccountState extends State<CreateAccount> implements CreateAccountV
 
   @override
   void navigateToLoginScreen() {
-    Navigator.pushNamed(context, "/iniciar");
+    AutoRouter.of(context).replaceNamed("/iniciar");
   }
 }

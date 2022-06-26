@@ -8,11 +8,12 @@ class User extends Equatable {
   final String id;
   final String email;
   final String username;
+  final int balance;
 
-  User({required this.id, required this.email, required this.username});
+  User({required this.id, required this.email, required this.username, required this.balance});
 
   @override
-  List<Object?> get props => [id, email, username];
+  List<Object?> get props => [id, email, username, balance];
 
   // factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   //

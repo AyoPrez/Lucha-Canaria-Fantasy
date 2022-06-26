@@ -39,7 +39,6 @@ dependencies:
   cupertino_icons: ^1.0.4
   shared_preferences: ^2.0.15
   provider: ^6.0.2
-  fluro: ^2.0.3
   uni_links: ^0.5.1
   get_it: ^7.2.0
   bloc: ^8.0.1
@@ -48,8 +47,10 @@ dependencies:
   json_annotation: ^4.4.0
   parse_server_sdk_flutter: ^3.1.0
   easy_sidemenu: ^0.3.0
+  auto_route: ^4.0.0
 
 dev_dependencies:
+  auto_route_generator: ^4.0.0
   build_runner: ^2.1.10
   flutter_test:
     sdk: flutter

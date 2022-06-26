@@ -15,7 +15,8 @@ class AuthImpl implements Auth {
     final ParseUser? user = await _parseService.getParseUser();
 
     if(user != null) {
-      return User(id: user.objectId.toString(), email: user.emailAddress.toString(), username: user.username.toString());
+      return User(id: user.objectId.toString(), email: user.emailAddress.toString(),
+          username: user.username.toString(), balance: user.get('balance'));
     } else {
       return null;
     }
@@ -39,5 +40,10 @@ class AuthImpl implements Auth {
   @override
   Future<void> forgotPassword({required String email}) async {
     await _parseService.forgotPassword(email: email);
+  }
+
+  @override
+  Future<bool> isSessionActive() async {
+    return await _parseService.isSessionActive();
   }
 }
