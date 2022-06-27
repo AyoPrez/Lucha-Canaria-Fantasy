@@ -12,11 +12,8 @@ class SplashScreenPresenterImpl extends SplashScreenPresenter {
 
   @override
   Future<bool> isUserSessionActive() async {
-    print("----------UserActiveSession-----");
 
     final bool sessionActive = await auth.isSessionActive();
-
-    print("Session $sessionActive");
 
     return sessionActive;
   }

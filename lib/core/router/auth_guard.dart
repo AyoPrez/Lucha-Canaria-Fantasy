@@ -5,7 +5,14 @@ import 'package:parse_server_sdk/parse_server_sdk.dart';
 class AuthGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final user = await ParseUser.currentUser();
+
+    ParseUser? user;
+
+    try {
+      user = await ParseUser.currentUser();
+    } catch (exception) {
+      user = null;
+    }
 
     if(user != null){
       resolver.next(true);

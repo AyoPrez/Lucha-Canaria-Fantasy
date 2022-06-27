@@ -17,21 +17,32 @@ class ParseService {
   Future<void> init() async {
     ConfigReader.initialize();
 
-    print("-----------Initialize: -----------");
     if(kReleaseMode) {
-      await Parse().initialize(ConfigReader.getParseAppProdKey(), keyParseServerUrl, clientKey: ConfigReader.getParseClientProdKey(), debug: true);
+      await Parse().initialize(
+          ConfigReader.getParseAppProdKey(), keyParseServerUrl,
+          clientKey: ConfigReader.getParseClientProdKey(),
+          autoSendSessionId: true,
+          coreStore: await CoreStoreSharedPrefsImp.getInstance(),
+          debug: true);
     } else {
       await Parse().initialize(
           ConfigReader.getParseAppDevKey(), keyParseServerUrl,
-          clientKey: ConfigReader.getParseClientDevKey(), debug: true);
+          clientKey: ConfigReader.getParseClientDevKey(),
+          autoSendSessionId: true,
+          coreStore: await CoreStoreSharedPrefsImp.getInstance(),
+          debug: true);
     }
   }
 
   //region Auth
   Future<ParseUser?> getParseUser() async {
-    final ParseUser? currentUser = await ParseUser.currentUser() as ParseUser?;
+    final ParseUser? currentUser;
 
-    print("--------------ParseUser---");
+    try {
+       currentUser = await ParseUser.currentUser() as ParseUser?;
+    } catch(exception) {
+      return null;
+    }
 
     if (currentUser == null) {
       return null;
@@ -88,16 +99,12 @@ class ParseService {
   Future<bool> isSessionActive() async {
 
     try {
-      print("---------------Session Active----------");
       final ParseUser? user = await getParseUser();
-      print("---------------Parse user -------- ${user}");
-    } catch(Exception) {
-      print("--------Exception: ${Exception}");
+    } catch(exception) {
       return false;
     }
 
     final user = await ParseUser.currentUser() as ParseUser;
-    print("---------------User: ${user.username}");
     return user.sessionToken != null;
   }
   //endregion

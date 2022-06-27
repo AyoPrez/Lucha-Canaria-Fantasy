@@ -9,8 +9,8 @@ import 'my_app.dart';
 Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await di.init();
   await ConfigReader.initialize();
+  await di.init();
 
   return runApp(
     ChangeNotifierProvider<ThemeNotifier>(

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
@@ -6,22 +8,49 @@ import 'package:lucha_fantasy/core/injection.dart';
 import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/credits/ui/responsive/desktop_body.dart';
 import 'package:lucha_fantasy/features/main/presenter/main_presenter.dart';
+import 'package:lucha_fantasy/features/main/ui/mainView.dart';
 import 'package:lucha_fantasy/features/my_team/ui/responsive/desktop_body.dart';
 
-class MainDesktopBody extends StatelessWidget {
-  MainDesktopBody({Key? key}) : super(key: key);
 
+class MainDesktopBody extends StatefulWidget {
+  const MainDesktopBody({Key? key}) : super(key: key);
+
+  @override
+  State<MainDesktopBody> createState() => _MainDesktopBodyState();
+}
+
+
+class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
   final MainPresenter presenter = locator.get<MainPresenter>();
 
   final PageController page = PageController();
   late Size mediaQuerySize;
+  Widget content = Container();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      initAsync();
+    });
+  }
+
+  void initAsync() async {
+    presenter.setMainView(this);
+    await presenter.getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
     mediaQuerySize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.green,
-      body: FutureBuilder<User?>(
+      body: content,
+
+      /*FutureBuilder<User?>(
         future: presenter.getUserData(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if(snapshot.hasData) {
@@ -47,7 +76,7 @@ class MainDesktopBody extends StatelessWidget {
             );
           }
         },
-      ),
+      ),*/
     );
   }
 
@@ -201,5 +230,44 @@ class MainDesktopBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void displayError(Exception exception) {
+    setState((){
+
+
+
+      content = Text(
+        AppLocalizations.of(context).errorUnknownDescription, //Add here better description error
+        style: const TextStyle(fontSize: 20, color: Colors.red),
+      );
+    });
+  }
+
+  @override
+  void displayLoading() {
+    setState((){
+      content = const Center(
+        child: SizedBox(
+          width: 120,
+          height: 120,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    });
+  }
+
+  @override
+  void displayPlayerProfile(User? user) {
+    setState((){
+      content = Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          sideMenu(context, user!.balance.toString()),
+          mainContent(user.balance)
+        ],
+      );
+    });
   }
 }

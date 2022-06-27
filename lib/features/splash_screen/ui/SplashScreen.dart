@@ -15,8 +15,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    print("---------------Build--------");
 /*
     return FutureBuilder(
       future: presenter.isUserSessionActive(),

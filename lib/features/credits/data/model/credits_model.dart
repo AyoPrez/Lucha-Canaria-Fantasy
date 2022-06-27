@@ -40,7 +40,6 @@ class CreditsModel extends Equatable{
       final int price = object.get('Price');
       final int value = object.get('Value');
       final String picture = object.get('Picture')['url'];
-      print("Picture: ${object.get('Picture')['url']}");
 
      final CreditsModel model = CreditsModel(id, name, price, value, picture);
       credits.add(model);
