@@ -52,5 +52,16 @@
   "goldOffer": "Oro",
   "platinumOffer": "Platino",
   "diamondOffer": "Diamante",
-  "recommendedOffer": "Recomendado"
+  "recommendedOffer": "Recomendado",
+  "buyCreditsDialogTitle": "Comprar créditos",
+  "buyCreditsDialogDescription": "Estas a punto de comprar la oferta {name} con {credits} créditos por {price}€. ¿Es lo que deseas?",
+  "@buyCreditsDialogDescription": {
+    "placeholders": {
+      "name": {},
+      "credits": {},
+      "price": {}
+    }
+  },
+  "buttonYes": "Sí",
+  "buttonNo": "No"
   }

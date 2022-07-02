@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:lucha_fantasy/core/config_reader.dart';
 import 'package:lucha_fantasy/core/services/exceptions/empty_fields_exception.dart';
+import 'package:lucha_fantasy/core/services/exceptions/error_during_purchase_credits_exception.dart';
+import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/credits/data/model/credits_model.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/my_team.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/player.dart';
@@ -137,6 +139,25 @@ class ParseService {
       return CreditsModel.fromParseResult(result);
     } else {
       return [];
+    }
+  }
+
+  Future<User> updateUserCredits(String creditsId, String userId) async {
+    try {
+      final ParseCloudFunction function = ParseCloudFunction('buyCredits');
+      final Map<String, dynamic> params = <String, dynamic>{
+        'creditId': creditsId,
+        'userId': userId
+      };
+      final ParseResponse parseResponse = await function.execute(parameters: params);
+
+      if (parseResponse.success && parseResponse.result != null) {
+        return await User.fromJson(parseResponse.result['value']);
+      } else {
+        throw ErrorDuringCreditsPurchasedException("");
+      }
+    } catch (exception) {
+      throw ErrorDuringCreditsPurchasedException(exception.toString());
     }
   }
 

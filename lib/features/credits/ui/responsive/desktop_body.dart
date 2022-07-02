@@ -6,11 +6,14 @@ import 'package:lucha_fantasy/core/utils/rotate_corner_decoration.dart';
 import 'package:lucha_fantasy/features/credits/data/model/credits_model.dart';
 import 'package:lucha_fantasy/features/credits/presenter/credits_presenter.dart';
 import 'package:lucha_fantasy/features/credits/ui/credits_view.dart';
+import 'package:lucha_fantasy/features/main/ui/mainView.dart';
 
 class CreditsDesktopBody extends StatefulWidget {
-  final int userBalance;
+  int userBalance;
+  String userId;
+  MainView mainView;
 
-  const CreditsDesktopBody({Key? key, required this.userBalance}) : super(key: key);
+  CreditsDesktopBody({Key? key, required this.userBalance, required this.userId, required this.mainView}) : super(key: key);
 
   @override
   State<CreditsDesktopBody> createState() => _CreditsDesktopBodyState();
@@ -25,6 +28,8 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
   @override
   Widget build(BuildContext context) {
     mediaQuerySize = MediaQuery.of(context).size;
+    presenter.setCreditsView(this);
+    presenter.setMainView(widget.mainView);
     return Scaffold(
       backgroundColor: Colors.green,
       body: isLoadingDisplayed ? loading() : creditsScreen(),
@@ -219,7 +224,9 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
         TableCell(
             child: Expanded(
               child: TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  buyCredits(cellData);
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
@@ -242,6 +249,37 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
   }
 
   //endregion
+
+  void buyCredits(CreditsModel credits) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context).buyCreditsDialogTitle),
+            content: Text(AppLocalizations.of(context).buyCreditsDialogDescription(credits.name, credits.value, credits.price)),
+            actions: [
+              TextButton(
+                child: Text(AppLocalizations
+                    .of(context)
+                    .buttonNo),
+                onPressed: () {
+                  AutoRouter.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(AppLocalizations
+                    .of(context)
+                    .buttonYes),
+                onPressed: () {
+                  presenter.buyCredits(credits.id, widget.userId);
+                  AutoRouter.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
 
   @override
   void displayError(Exception? exception) {
@@ -290,10 +328,18 @@ class _CreditsDesktopBodyState extends State<CreditsDesktopBody> implements Cred
   }
 
   Widget loading() {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(color: Colors.white),
       ),
     );
+  }
+
+  @override
+  void updateCredits(int updatedUserBalance) {
+    setState((){
+      isLoadingDisplayed = false;
+      widget.userBalance = updatedUserBalance;
+    });
   }
 }

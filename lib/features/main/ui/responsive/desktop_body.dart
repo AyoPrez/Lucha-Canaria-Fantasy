@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +24,7 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
   final PageController page = PageController();
   late Size mediaQuerySize;
   Widget content = Container();
+  String userBalance = "";
 
 
   @override
@@ -80,7 +79,7 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
     );
   }
 
-  Widget sideMenu(BuildContext context, String userBalance){
+  Widget sideMenu(BuildContext context){
     List<SideMenuItem> items = [
       SideMenuItem(
         // Priority of item to show on SideMenu, lower value is displayed at the top
@@ -195,7 +194,7 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
     );
   }
 
-  Widget mainContent(int userBalance) {
+  Widget mainContent(int userBalance, String userId) {
     return Expanded(
       child: PageView(
         controller: page,
@@ -225,7 +224,7 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
           ),
           Container(),
           Container(
-            child: CreditsDesktopBody(userBalance: userBalance,),
+            child: CreditsDesktopBody(userBalance: userBalance, userId: userId, mainView: this,),
           ),
         ],
       ),
@@ -235,8 +234,6 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
   @override
   void displayError(Exception exception) {
     setState((){
-
-
 
       content = Text(
         AppLocalizations.of(context).errorUnknownDescription, //Add here better description error
@@ -261,11 +258,12 @@ class _MainDesktopBodyState extends State<MainDesktopBody> implements MainView {
   @override
   void displayPlayerProfile(User? user) {
     setState((){
+      userBalance = user!.balance.toString();
       content = Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          sideMenu(context, user!.balance.toString()),
-          mainContent(user.balance)
+          sideMenu(context),
+          mainContent(user.balance, user.id)
         ],
       );
     });

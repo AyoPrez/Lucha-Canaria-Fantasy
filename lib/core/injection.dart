@@ -38,7 +38,7 @@ Future<void> init() async {
 
   //Credits
   locator.registerLazySingleton<CreditsRepo>(() => CreditsRepoImpl(locator()));
-  locator.registerLazySingleton<CreditsPresenter>(() => CreditsPresenterImpl(locator()));
+  locator.registerLazySingleton<CreditsPresenter>(() => CreditsPresenterImpl(locator(), locator()));
 
 }
 
