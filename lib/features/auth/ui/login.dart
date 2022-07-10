@@ -166,6 +166,9 @@ class _LoginState extends State<Login> implements LoginView {
 
   @override
   void navigateToMainScreen() {
-    AutoRouter.of(context).replaceNamed("/principal");
+    // AutoRouter.of(context).replaceNamed("/principal");
+
+    print("Go to create team");
+    AutoRouter.of(context).replaceNamed("/create_team");
   }
 }

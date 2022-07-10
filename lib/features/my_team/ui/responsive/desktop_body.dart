@@ -240,7 +240,7 @@ class _MyTeamDesktopBodyState extends State<MyTeamDesktopBody> implements MyTeam
                 ),
               ],
             ),
-            Text("${AppLocalizations.of(context).team}: ${playerToDisplayProfile!.team.name}"),
+            Text("${AppLocalizations.of(context).team}: ${playerToDisplayProfile!.team?.name}"),
             Row(
               children: [
                 Padding(

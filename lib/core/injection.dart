@@ -3,6 +3,7 @@ import 'package:lucha_fantasy/core/services/parse_service.dart';
 import 'package:lucha_fantasy/features/auth/data/repository/auth.dart';
 import 'package:lucha_fantasy/features/auth/data/repository/impl/auth_impl.dart';
 import 'package:lucha_fantasy/features/auth/presenter/auth_presenter.dart';
+import 'package:lucha_fantasy/features/create_team/presenter/create_team_presenter.dart';
 import 'package:lucha_fantasy/features/credits/data/repository/credits_repo.dart';
 import 'package:lucha_fantasy/features/credits/data/repository/impl/credits_repo_impl.dart';
 import 'package:lucha_fantasy/features/credits/presenter/credits_presenter.dart';
@@ -39,6 +40,10 @@ Future<void> init() async {
   //Credits
   locator.registerLazySingleton<CreditsRepo>(() => CreditsRepoImpl(locator()));
   locator.registerLazySingleton<CreditsPresenter>(() => CreditsPresenterImpl(locator(), locator()));
+
+  //Create Team
+  // locator.registerLazySingleton<CreditsRepo>(() => CreditsRepoImpl(locator()));
+  locator.registerLazySingleton<CreateTeamPresenter>(() => CreateTeamPresenterImpl(locator(), locator(), locator()));
 
 }
 

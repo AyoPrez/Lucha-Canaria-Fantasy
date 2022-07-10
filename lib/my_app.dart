@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  final _appRouter = AppRouter(authGuard: AuthGuard(), noAuthGuard: NoAuthGuard());
+  final _appRouter = AppRouter(authGuard: AuthGuard(), noAuthGuard: NoAuthGuard());//, teamCreatedGuard: TeamCreatedGuard());
 
   @override
   Widget build(BuildContext context) {

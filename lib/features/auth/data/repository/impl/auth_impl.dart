@@ -16,7 +16,9 @@ class AuthImpl implements Auth {
 
     if(user != null) {
       return User(id: user.objectId.toString(), email: user.emailAddress.toString(),
-          username: user.username.toString(), balance: user.get('balance'));
+          username: user.username.toString(), balance: user.get('balance'),
+        userTeam: user.get('userTeam')
+      );
     } else {
       return null;
     }

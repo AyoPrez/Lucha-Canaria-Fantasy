@@ -6,7 +6,6 @@ import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/credits/data/model/credits_model.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/my_team.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/player.dart';
-import 'package:lucha_fantasy/features/my_team/data/model/team.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ParseService {
@@ -115,16 +114,16 @@ class ParseService {
   Future<MyTeam?> getMyTeamFromParse({required String userId}) async {
     // return null;
     // return MyTeam(id: "0", name: "Los cacharros", rank: "12", picture: "", players: []);
-    return MyTeam(id: "0", name: "Los cacharros", rank: "12", picture: "", players: [
-          Player(id: "1", name: "Sara Sanchez Álamo", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-              points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-          Player(id: "1", name: "Sara Sanchez Álamo", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-              points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-          Player(id: "1", name: "Sara Sanchez Álamo", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-              points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-          Player(id: "1", name: "Sara Sanchez Álamo", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-              points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-        ]);
+    // return const MyTeam(id: "0", name: "Los cacharros", rank: "12", picture: "", players: [
+    //       Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
+    //           points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
+    //       Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
+    //           points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
+    //       Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
+    //           points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
+    //       Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
+    //           points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
+    //     ]);
   }
   //endregion
 
@@ -161,5 +160,23 @@ class ParseService {
     }
   }
 
+  //endregion
+
+  //region Players
+  Future<List<Player>> getAllPlayers() async {
+    final QueryBuilder<ParseObject> queryPlayers = QueryBuilder<ParseObject>(ParseObject('Player'));
+    final ParseResponse apiResponse = await queryPlayers.query();
+
+    if (apiResponse.success && apiResponse.results != null) {
+      final List<ParseObject> result = apiResponse.results as List<ParseObject>;
+
+      print("Players list: ${result.length}");
+
+      return Player.fromParseResult(result);
+    } else {
+      print("No success");
+      return [];
+    }
+  }
   //endregion
 }
