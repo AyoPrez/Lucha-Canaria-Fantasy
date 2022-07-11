@@ -29,6 +29,10 @@
   "errorNoUser": "Hubo un error obteniendo los datos del usuario. Por favor, cierre sesión y vuelva a iniciarla antes de intentarlo de nuevo.",
   "errorLoadingPlayerProfileTitle": "Error al cargar la ficha",
   "errorLoadingPlayerProfileDescription": "No se pudo cargar la ficha del luchador. Vuelve a intentarlo",
+  "errorEmptyTeamNameTitle": "Campo de nombre vacío",
+  "errorEmptyTeamNameDescription": "Debes elegir un nombre para tu equipo antes de continuar",
+  "errorNotUniqueTeamNameTitle": "El nombre ya está ocupado",
+  "errorNotUniqueTeamNameDescription": "El nombre está cogido. Por favor, escoge otro o añade algún número para hacerlo diferente",
   "menuItemMyTeam": "Mi equipo",
   "menuItemMyLeague": "Mis ligas",
   "menuItemTransfers": "Transferencias",
@@ -36,6 +40,7 @@
   "menuItemSettings": "Ajustes",
   "menuItemBalance": "Balance",
   "player": "Luchador",
+  "age": "Edad",
   "ranking": "Clasificación",
   "points": "Puntos",
   "falls": "Caídas",
@@ -63,5 +68,18 @@
     }
   },
   "buttonYes": "Sí",
-  "buttonNo": "No"
+  "buttonNo": "No",
+  "createTeam": "Crea un nuevo equipo",
+  "chooseATeamNameScreenTitle": "Elige un nombre",
+  "chooseATeamNameScreenDescription": "Escribe un nombre único para tu equipo",
+  "chooseATeamNameHint": "Nombre del equipo",
+  "setTeamNameButton": "Establecer nombre del equipo",
+  "chooseYourTeamScreenTitle": "Elige tu equipo",
+  "creditsToSpendInPlayers": "Tienes en tu balance {balance} créditos para formar tu equipo. Elige a los luchadores sabiamente",
+  "@creditsToSpendInPlayers": {
+    "placeholders": {
+      "balance": {}
+    }
+  },
+  "acquirePlayerButton": "Adquirir luchador"
   }

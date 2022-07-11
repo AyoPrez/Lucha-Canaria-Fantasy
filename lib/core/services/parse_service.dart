@@ -179,4 +179,22 @@ class ParseService {
     }
   }
   //endregion
+
+  //region New Team
+  Future<bool> checkUniqueTeamName(String teamName) async {
+    try {
+      final ParseCloudFunction function = ParseCloudFunction('checkTeamName');
+      final Map<String, String> params = <String, String>{
+        'teamName': teamName
+      };
+      final ParseResponse parseResponse = await function.execute(parameters: params);
+
+      print("Check name result: ${parseResponse.result}");
+
+      return parseResponse.success && parseResponse.result != null && parseResponse.result;
+    } catch (exception) {
+      return false;
+    }
+  }
+  //endregion
 }

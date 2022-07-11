@@ -1,8 +1,10 @@
 import 'package:lucha_fantasy/core/services/exceptions/no_player_exception.dart';
 import 'package:lucha_fantasy/core/services/exceptions/no_user_exception.dart';
 import 'package:lucha_fantasy/core/services/exceptions/no_user_team_exception.dart';
+import 'package:lucha_fantasy/core/services/exceptions/not_unique_team_name_exception.dart';
 import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/auth/data/repository/auth.dart';
+import 'package:lucha_fantasy/features/create_team/data/repository/create_team_repo.dart';
 import 'package:lucha_fantasy/features/create_team/ui/create_team_view.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/my_team.dart';
 import 'package:lucha_fantasy/features/my_team/data/model/player.dart';
@@ -20,11 +22,12 @@ abstract class CreateTeamPresenter {
 class CreateTeamPresenterImpl extends CreateTeamPresenter {
 
   CreateTeamView? _createTeamView;
+  CreateTeamRepo createTeamRepo;
   MyTeamRepo repo;
   PlayerRepo playerRepo;
   Auth auth;
 
-  CreateTeamPresenterImpl(this.repo, this.auth, this.playerRepo);
+  CreateTeamPresenterImpl(this.repo, this.auth, this.playerRepo, this.createTeamRepo);
 
   @override
   Future<MyTeam> getMyTeam() async {
@@ -68,24 +71,16 @@ class CreateTeamPresenterImpl extends CreateTeamPresenter {
 
   @override
   Future<void> checkName(String name) async {
-    //TODO add here repo logic to check if name is unique
+    var isNameAvailable = await createTeamRepo.checkTeamName(name);
 
-    //TODO if name is unique, search for players in the database
+    if(isNameAvailable) {
+      var players = await playerRepo.getAllPlayers();
 
-    // List<Player> players = const [
-    //   Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-    //     points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-    // Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-    // points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-    // Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-    // points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: "")),
-    // Player(id: "1", name: "Sara Sanchez Álamo", age: "25", alias: "", picture: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg",
-    // points: "265", rank: "52", falls: "16", throws: "95", news: "", price: "35000", team: Team(id: "", name: "", rank: "", picture: "", location: ""))];
+      var user = await auth.getUser();
 
-    var players = await playerRepo.getAllPlayers();
-
-    var user = await auth.getUser();
-
-    _createTeamView?.displayChooseTeamPlayers(user, players);
+      _createTeamView?.displayChooseTeamPlayers(user, players);
+    } else {
+      _createTeamView?.displayError(NotUniqueTeamNameException());
+    }
   }
 }

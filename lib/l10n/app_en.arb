@@ -29,6 +29,10 @@
   "errorNoUser": "There was an error getting the user. Please, logout and login before trying again.",
   "errorLoadingPlayerProfileTitle": "Error loading the profile",
   "errorLoadingPlayerProfileDescription": "It couldn't be loaded the profile of the wrestler. Try again",
+  "errorEmptyTeamNameTitle": "Empty team name",
+  "errorEmptyTeamNameDescription": "You should write a team name before continue",
+  "errorNotUniqueTeamNameTitle": "Name already taken",
+  "errorNotUniqueTeamNameDescription": "The name is already taken. Please, choose another one or add some numbers to create a variation",
   "menuItemMyTeam": "My team",
   "menuItemMyLeague": "My leagues",
   "menuItemTransfers": "Transfers",
@@ -36,6 +40,7 @@
   "menuItemSettings": "Settings",
   "menuItemBalance": "Balance",
   "player": "Wrestler",
+  "age": "Age",
   "ranking": "Rank",
   "points": "Points",
   "falls": "Falls",
@@ -63,5 +68,18 @@
     }
   },
   "buttonYes": "Yes",
-  "buttonNo": "No"
+  "buttonNo": "No",
+  "createTeam": "Create a new team",
+  "chooseATeamNameScreenTitle": "Choose a name",
+  "chooseATeamNameScreenDescription": "Write an unique name for your team",
+  "chooseATeamNameHint": "Team name",
+  "setTeamNameButton": "Set team name",
+  "chooseYourTeamScreenTitle": "Choose your team",
+  "creditsToSpendInPlayers": "You have {balance} credits to form your team. Choose the wrestlers wisely",
+  "@creditsToSpendInPlayers": {
+    "placeholders": {
+      "balance": {}
+    }
+  },
+  "acquirePlayerButton": "Acquire wrestler"
 }

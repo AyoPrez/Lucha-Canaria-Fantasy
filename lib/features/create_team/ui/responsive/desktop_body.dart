@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lucha_fantasy/core/injection.dart';
+import 'package:lucha_fantasy/core/services/exceptions/empty_team_name_exception.dart';
 import 'package:lucha_fantasy/core/services/exceptions/no_user_exception.dart';
 import 'package:lucha_fantasy/core/services/exceptions/no_user_team_exception.dart';
+import 'package:lucha_fantasy/core/services/exceptions/not_unique_team_name_exception.dart';
 import 'package:lucha_fantasy/features/auth/data/model/user.dart';
 import 'package:lucha_fantasy/features/create_team/presenter/create_team_presenter.dart';
 import 'package:lucha_fantasy/features/create_team/ui/create_team_view.dart';
@@ -56,7 +58,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
                     ),
                 ),
                 onPressed: () {},
-                child: Text("Create Team", style: TextStyle(color: Colors.blue),),
+                child: Text(AppLocalizations.of(context).createTeam, style: TextStyle(color: Colors.blue),),
               ),
             )
         ),
@@ -64,7 +66,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
     } else if(exception is NoUserException) {
       return Center(
         child: Text(
-            AppLocalizations.of(context).errorNoUser,
+          AppLocalizations.of(context).errorNoUser,
           style: TextStyle(fontSize: 27, color: Colors.redAccent),
         ),
       );
@@ -91,16 +93,16 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        title: const Text("Choose a name"),
+        title: Text(AppLocalizations.of(context).chooseATeamNameScreenTitle),
         centerTitle: true,
         leading: null,
       ),
       body: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-                "Choose a unique name for your team",
+                AppLocalizations.of(context).chooseATeamNameScreenDescription,
                 style: TextStyle(fontSize: 16),
             ),
           ),
@@ -110,7 +112,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
               child: TextField(
                 controller: teamNameController,
                 decoration: InputDecoration(
-                  hintText: "Team name"
+                  hintText: AppLocalizations.of(context).chooseATeamNameHint
                 ),
               ),
             ),
@@ -119,9 +121,14 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
             padding: const EdgeInsets.all(10.0),
             child: OutlinedButton(
                 onPressed: (){
-                  presenter.checkName(teamNameController.text.trim());
+                  var teamName = teamNameController.text.trim();
+                  if(teamName.isEmpty) {
+                    displayError(EmptyTeamNameException());
+                  } else {
+                    presenter.checkName(teamName);
+                  }
                 },
-                child: const Text("Set name")
+                child: Text(AppLocalizations.of(context).setTeamNameButton)
             ),
           )
         ],
@@ -144,7 +151,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
-        title: Text("Choose your team"),
+        title: Text(AppLocalizations.of(context).chooseYourTeamScreenTitle),
         centerTitle: true,
         leading: null,
       ),
@@ -153,7 +160,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
           Center(child:
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text("You have ${user.balance} credits to spend in players"),
+              child: Text(AppLocalizations.of(context).creditsToSpendInPlayers(user.balance)),
             )
           ),
           Padding(
@@ -172,7 +179,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
         columns: <DataColumn>[
           _emptyDataColumn(),
           _tableHeaderTextElement(AppLocalizations.of(context).name),
-          _tableHeaderTextElement("Age"),
+          _tableHeaderTextElement(AppLocalizations.of(context).age),
           _tableHeaderTextElement(AppLocalizations.of(context).price),
           _emptyDataColumn(),
         ],
@@ -198,7 +205,7 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
             _listElement(OutlinedButton(onPressed: (){
               //TODO When clicking in a player button to acquire it, a dialog should be open asking the user if he/she wants to acquire the player
               //TODO for the quantity required (if the user has not credits enough, the dialog should be an error dialog telling that he cannot buy that players)
-            }, child: Text("Acquire player")))
+            }, child: Text(AppLocalizations.of(context).acquirePlayerButton)))
           ],
         ),
       );
@@ -246,8 +253,22 @@ class _CreateTeamDesktopBodyState extends State<CreateTeamDesktopBody> implement
     String text = "";
 
     if (exception == null) {
-      title = AppLocalizations.of(context).errorUnknownTitle;
-      text = AppLocalizations.of(context).errorUnknownDescription;
+      title = AppLocalizations
+          .of(context)
+          .errorUnknownTitle;
+      text = AppLocalizations
+          .of(context)
+          .errorUnknownDescription;
+    } else if (exception is EmptyTeamNameException) {
+      title = AppLocalizations
+          .of(context)
+          .errorEmptyTeamNameTitle;
+      text = AppLocalizations
+          .of(context)
+          .errorEmptyTeamNameDescription;
+    } else if (exception is NotUniqueTeamNameException) {
+      title = AppLocalizations.of(context).errorNotUniqueTeamNameTitle;
+      text = AppLocalizations.of(context).errorNotUniqueTeamNameDescription;
     } else {
       title = AppLocalizations.of(context).errorLoadingPlayerProfileTitle;
       text = AppLocalizations.of(context).errorLoadingPlayerProfileDescription;
